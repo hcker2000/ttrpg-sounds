@@ -9,23 +9,25 @@ export function SceneProvider(props) {
     // Create a store (could be any complex object or state)
     const [store, setStore] = createStore({
         defaultScene: {
-            "title": "Hello World",
-            "description": "A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to. 300 Athelas fulfilled selling. Hell profit Haleth rare! Garden reaction night ancestor prelude boys Sounds sweeps 3434. Usually titles king election foothold Thorin Oakenshield themselves stinks corrupted round fulfill. Silver unseen rampart fool Galadriel loosened feather vanquished treat named. Horn terribly reputation fellow's mercenaries crows Dwarvish worst sea convinced nothing's. Forebearers hasn't lead carcasses deputy overfond crevice maiden Gríma roaring ill-tempered is.",
-            "sounds": [
+            title: "Hello World",
+            description: "A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to. 300 Athelas fulfilled selling. Hell profit Haleth rare! Garden reaction night ancestor prelude boys Sounds sweeps 3434. Usually titles king election foothold Thorin Oakenshield themselves stinks corrupted round fulfill. Silver unseen rampart fool Galadriel loosened feather vanquished treat named. Horn terribly reputation fellow's mercenaries crows Dwarvish worst sea convinced nothing's. Forebearers hasn't lead carcasses deputy overfond crevice maiden Gríma roaring ill-tempered is.",
+            sounds: [
                 {
-                    "title": "birds",
-                    "file": "c:\\whatever",
-                    "volume": 75,
-                    "loop": true
+                    title: "birds",
+                    file: "c:\\whatever",
+                    volume: 75,
+                    loop: true,
+                    playing: true
                 },
                 {
                     "title": "river",
                     "file": "c:\\river",
                     "volume": 75,
-                    "loop": true
+                    "loop": true,
+                    playing: false
                 },
             ],
-            "tags": [
+            tags: [
                 "tavern",
                 "night"
             ]

@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: scree-share
+productName: ttrpg-sounds
 directories:
   buildResources: build
 files:
@@ -32,7 +32,7 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: https://github.com/hcker2000/scree-share
+  maintainer: https://github.com/hcker2000/ttrpg-sounds
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}
