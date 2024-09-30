@@ -1,8 +1,20 @@
-import { app, shell, BrowserWindow, ipcMain, desktopCapturer, globalShortcut } from 'electron'
-import { join } from 'path'
+import { app, shell, BrowserWindow, ipcMain, desktopCapturer, globalShortcut, protocol, net } from 'electron'
+import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import '../renderer/scss/styles.scss'
+
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: "media",
+    privileges: {
+      secure: true,
+      supportFetchAPI: true,
+      bypassCSP: true,
+      stream: true
+    }
+  }
+]);
 
 function createControlWindow() {
   const window = new BrowserWindow({
@@ -59,6 +71,10 @@ app.whenReady().then(() => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createControlWindow()
+  })
+
+  protocol.handle('media', function (request) {
+    return net.fetch('file://' + request.url.slice('media://'.length))
   })
 
   let controlWindow = createControlWindow()

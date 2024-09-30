@@ -14,17 +14,19 @@ export function SceneProvider(props) {
             sounds: [
                 {
                     title: "birds",
-                    file: "c:\\whatever",
-                    volume: 75,
+                    file: "/home/hcker2000/Downloads/file_example_MP3_700KB.mp3",
+                    volume: 25,
                     loop: true,
-                    playing: true
+                    status: false,
+                    player: null
                 },
                 {
-                    "title": "river",
-                    "file": "c:\\river",
-                    "volume": 75,
-                    "loop": true,
-                    playing: false
+                    title: "river",
+                    file: "/home/hcker2000/Downloads/sample-9s.mp3",
+                    volume: 0,
+                    loop: true,
+                    status: false,
+                    player: null
                 },
             ],
             tags: [

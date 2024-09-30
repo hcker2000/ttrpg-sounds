@@ -26,6 +26,7 @@
     "electron-json-storage": "^4.6.0",
     "electron-settings": "^4.0.4",
     "electron-store": "^10.0.0",
+    "howler": "^2.2.4",
     "solid-js": "^1.9.1",
     "sweetalert2": "^11.14.1"
   },
