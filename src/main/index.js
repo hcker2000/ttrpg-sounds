@@ -17,7 +17,8 @@ function createControlWindow() {
       sandbox: false,
       nodeIntegration: true,
       contextIsolation: false,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      backgroundThrottling: false,
     }
   })
 
