@@ -1,4 +1,4 @@
-import { Show, useContext } from "solid-js"
+import { Show, createSignal } from "solid-js"
 import { produce } from "solid-js/store"
 import { useStore } from "./provider";
 import { Sound } from "./sound";
@@ -6,6 +6,7 @@ import {Howl, Howler} from 'howler';
 
 export function Content() {
     const { store, setStore } = useStore();
+    const [playing, setPlaying] = createSignal(false);
 
     const toggleScene = (event) => {
         // todo: place this in the add audio call back once I get that element done. it should save the file path.
@@ -20,15 +21,16 @@ export function Content() {
         //   audioPlayer.play()
         // })
 
-        // todo: loop over all store.sounds and start them playing
         store.selectedScene.sounds.forEach((sound, index) => {
             if (sound.status == 'playing') {
+                setPlaying(false)
                 sound.player.stop();
                 setStore('selectedScene', 'sounds', index, produce((thisSound) => {
                     thisSound.status = 'stopped',
                     thisSound.player = null
                 }))
             } else {
+                setPlaying(true)
                 let howlPlayer = new Howl({
                     src: ['media://' + sound.file],
                 })
@@ -44,11 +46,10 @@ export function Content() {
     }
 
     return (
-        <Show when={store.selectedScene} fallback={<div>Loading...</div>}>
-            <input type="file" id="hiddenFileInput"></input>
+        <Show when={store.selectedScene} fallback={<div></div>}>
             <div className="title">
                 <h3 class="">{store.selectedScene.title}</h3>
-                <svg on:click={toggleScene} xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-play-circle-fill pointer" viewBox="0 0 16 16">
+                <svg on:click={toggleScene} xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class={`bi bi-play-circle-fill pointer ${playing() == true ? 'text-success' : '' }`} viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
                 </svg>
             </div>
