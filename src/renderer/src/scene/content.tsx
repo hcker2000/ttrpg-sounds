@@ -9,18 +9,6 @@ export function Content() {
     const [playing, setPlaying] = createSignal(false);
 
     const toggleScene = (event) => {
-        // todo: place this in the add audio call back once I get that element done. it should save the file path.
-        // const hiddenFileInput = document.getElementById('hiddenFileInput');
-        // hiddenFileInput.click();
-      
-        // hiddenFileInput.addEventListener('change', () => {
-        //   const file = hiddenFileInput.files[0];
-        //   const urlObj = URL.createObjectURL(file);
-          
-        //   const audioPlayer = new Audio(urlObj);
-        //   audioPlayer.play()
-        // })
-
         store.selectedScene.sounds.forEach((sound, index) => {
             if (sound.status == 'playing') {
                 setPlaying(false)
@@ -55,7 +43,7 @@ export function Content() {
             <div class="sounds-wrapper">
                 <div class="header">
                     <div class="strike">
-                        <span class="me-2">Sounds</span><i onClick={addSound} class={`bi bi-plus-circle-fill pointer play-pause ${playing() == true ? 'text-success' : '' }`}></i>
+                        <span class="me-2">Sounds</span><i onClick={addSound} class={`bi bi-plus-circle-fill pointer`}></i>
                     </div>
                 </div>
                 <Sound />

@@ -37,8 +37,14 @@ const addScene = async () => {
     const { value: data } = await Swal.fire({
         title: "Add a scene",
         html: `
-          <input type="text" id="titleInput" class="swal2-input" placeholder="Enter the title">
-          <textarea id="descriptionInput" class="swal2-input"></textarea>
+            <div class="form-group mb-3">
+                <label for="titleInput">Title</label>
+                <input type="text" class="form-control" id="titleInput" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+                <label for="descriptionInput">Description</label>
+                <textarea class="form-control" id="descriptionInput" rows="3" placeholder="Enter description"></textarea>
+            </div>
         `,
         showCancelButton: true,
         preConfirm: async () => {
@@ -68,8 +74,14 @@ const addSound = async () => {
     const { value: data } = await Swal.fire({
         title: "Add new sound",
         html: `
-          <input type="text" id="titleInput" class="swal2-input" placeholder="Enter the title">
-          <input type="file" id="soundInput" class="swal2-input">
+            <div class="form-group mb-3">
+                <label for="titleInput">Title</label>
+                <input type="text" class="form-control" id="titleInput" placeholder="Enter title">  
+            </div>
+            <div class="form-group">
+                <label for="soundInput">File</label>  
+                <input type="file" class="form-control" id="soundInput">
+            </div>
         `,
         showCancelButton: true,
         preConfirm: async () => {
