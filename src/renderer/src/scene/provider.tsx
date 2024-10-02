@@ -24,7 +24,10 @@ const initialStoreValue = {
         status: false,
         player: null
     },
-    selectedScene: null,
+    selectedSceneId: null,
+    get selectedScene() {
+        return this.scenes.find(obj => obj.id === this.selectedSceneId);
+    },
     scenes: []
 }
 
@@ -111,6 +114,10 @@ const addSound = async () => {
       }
 }
 
+const setSelectedScene = (scene) => {
+    setStore("selectedSceneId", scene)
+}
+
 const [store, setStore] = createStore(createInitialStoreValue());
 
 export const [SceneProvider, useStore] = createContextProvider(() => {
@@ -118,8 +125,8 @@ export const [SceneProvider, useStore] = createContextProvider(() => {
     return {
       store: store,
       setStore: setStore,
-      setSelectedScene: (scene) => setStore("selectedScene", scene),
-      addScene: addScene,
+      setSelectedScene: (scene) => setSelectedScene(scene),
+      addScene: () => addScene(),
       addSound: () => addSound(),
     }
 });
