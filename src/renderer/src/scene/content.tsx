@@ -5,7 +5,7 @@ import { Sound } from "./sound";
 import {Howl, Howler} from 'howler';
 
 export function Content() {
-    const { store, setStore } = useStore();
+    const { store, setStore, addSound } = useStore();
     const [playing, setPlaying] = createSignal(false);
 
     const toggleScene = (event) => {
@@ -47,13 +47,19 @@ export function Content() {
 
     return (
         <Show when={store.selectedScene} fallback={<div></div>}>
-            <div class="title">
-                <h3 class="">{store.selectedScene.title}</h3>
-                <i onClick={toggleScene} class={`bi bi-play-circle-fill pointer ${playing() == true ? 'text-success' : '' }`}></i>
+            <div class="title mb-3">
+                <h3 class="mb-0">{store.selectedScene.title}</h3>
+                <i onClick={toggleScene} class={`bi bi-play-circle-fill pointer play-pause ${playing() == true ? 'text-success' : '' }`}></i>
             </div>
             <div class="mb-3">{store.selectedScene.description}</div>
-            <div class="strike">Sounds</div>
-            <Sound />
+            <div class="sounds-wrapper">
+                <div class="header">
+                    <div class="strike">
+                        <span class="me-2">Sounds</span><i onClick={addSound} class={`bi bi-plus-circle-fill pointer play-pause ${playing() == true ? 'text-success' : '' }`}></i>
+                    </div>
+                </div>
+                <Sound />
+            </div>
         </Show>
     )
 }

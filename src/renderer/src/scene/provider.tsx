@@ -36,6 +36,10 @@ const createInitialStoreValue = () => {
     return initialStoreValue;
 }
 
+const addSound = (scene) => {
+    // todo: open file picker and update the selected scene, eventually the selected scene needs synced back into scenes (or maybe selectedScene is just the index for scenes)
+}
+
 const [store, setStore] = createStore(initialStoreValue)
 
 export const [SceneProvider, useStore] = createContextProvider(() => {
@@ -45,6 +49,7 @@ export const [SceneProvider, useStore] = createContextProvider(() => {
       store: store,
       setStore: setStore,
       newScene: (newScene) => setStore("scenes", store.scenes.length, newScene),
-      setSelectedScene: (scene) => setStore("selectedScene", structuredClone(unwrap(scene)))
+      setSelectedScene: (scene) => setStore("selectedScene", structuredClone(unwrap(scene))),
+      addSound: (scene) => addSound(scene),
     }
 });
