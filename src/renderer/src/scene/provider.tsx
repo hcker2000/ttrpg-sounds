@@ -34,23 +34,30 @@ const createInitialStoreValue = () => {
 
 
 const addScene = async () => {
-    const { value: title } = await Swal.fire({
-        title: "Scene Title",
-        input: "text",
-        inputLabel: "Give your Scene a title",
-        inputValue: '',
+    const { value: data } = await Swal.fire({
+        title: "Add a scene",
+        html: `
+          <input type="text" id="titleInput" class="swal2-input" placeholder="Enter the title">
+          <textarea id="descriptionInput" class="swal2-input"></textarea>
+        `,
         showCancelButton: true,
-        inputValidator: (value) => {
-            if (!value) {
-                return "You need to write something!";
-            }
+        preConfirm: async () => {
+          const title = document.getElementById('titleInput').value
+          const description = document.getElementById('descriptionInput').value
+      
+          if (!title) {
+            return Swal.showValidationMessage('Please enter a title.')
+          }
+      
+          return { title, description }
         }
     });
 
-    if (title) {
+    if (data) {
         let newSceneObject = structuredClone(unwrap(initialStoreValue.defaultScene))
 
-        newSceneObject.title = title
+        newSceneObject.title = data.title
+        newSceneObject.description = data.description
         newSceneObject.id = uuidv4()
 
         setStore("scenes", store.scenes.length, newSceneObject)
