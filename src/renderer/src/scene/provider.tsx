@@ -75,7 +75,7 @@ export const [SceneProvider, useStore] = createContextProvider(() => {
     return {
       store: store,
       setStore: setStore,
-      setSelectedScene: (scene) => setStore("selectedScene", structuredClone(unwrap(scene))),
+      setSelectedScene: (scene) => setStore("selectedScene", scene),
       addScene: addScene,
       addSound: (scene) => addSound(scene),
     }
