@@ -4,28 +4,7 @@ import Swal from "sweetalert2"
 import { useStore } from "./provider";
 
 export function Nav() {
-    const { store, setStore, newScene, setSelectedScene } = useStore();
-
-    const addScene = async (event) => {
-        const { value: title } = await Swal.fire({
-            title: "Scene Title",
-            input: "text",
-            inputLabel: "Give your Scene a title",
-            inputValue: '',
-            showCancelButton: true,
-            inputValidator: (value) => {
-                if (!value) {
-                    return "You need to write something!";
-                }
-            }
-        });
-        if (title) {
-            let newSceneObject = structuredClone(unwrap(store.defaultScene))
-    
-            newSceneObject.title = title
-            newScene(newSceneObject)
-        }
-    }
+    const { store, setSelectedScene, addScene } = useStore();
 
     return (
         <div>
