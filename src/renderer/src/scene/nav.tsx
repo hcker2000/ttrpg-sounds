@@ -2,7 +2,7 @@ import { For } from 'solid-js';
 import { useStore } from "./provider";
 
 export function Nav() {
-    const { store, setSelectedScene, addScene } = useStore();
+    const { store, setSelectedSceneId, addScene } = useStore();
 
     return (
         <div>
@@ -12,7 +12,7 @@ export function Nav() {
             <ul class="nav flex-column nav-fill">
                 <For each={store.scenes}>{(scene, i) =>
                     <li class="nav-item">
-                        <a class="nav-link active" onClick={[setSelectedScene, scene.id]} href="#" title={scene.description}>{scene.title}</a>
+                        <a class="nav-link active" onClick={[setSelectedSceneId, scene.id]} href="#" title={scene.description}>{scene.title}</a>
                     </li>
                 }</For>
             </ul>
