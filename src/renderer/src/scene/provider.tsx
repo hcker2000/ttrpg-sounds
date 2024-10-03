@@ -145,8 +145,6 @@ const setSelectedSceneId = (sceneId) => {
 
 const toggleSounds = () => {
     getSelectedScene().sounds.forEach((sound, index) => {
-        console.log('test');
-        
         if (sound.status == 'playing') {
             Howler.stop()
             audioPlayers = []
@@ -160,7 +158,9 @@ const toggleSounds = () => {
 
             let howlPlayer = new Howl({
                 src: ['media://' + sound.file],
+                loop: sound.loop,
             })
+            
             howlPlayer.volume(sound.volume * 0.01)
             howlPlayer.play()
 
