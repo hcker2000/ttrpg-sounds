@@ -12,7 +12,7 @@ export function Nav() {
             <ul class="nav flex-column nav-fill">
                 <For each={store.scenes}>{(scene, i) =>
                     <li class="nav-item">
-                        <a class="nav-link active" onClick={[setSelectedSceneId, scene.id]} href="#" title={scene.description}>{scene.title}</a>
+                        <a class={`nav-link ${store.selectedSceneId == scene.id ? 'text-success' : '' }`} onClick={[setSelectedSceneId, scene.id]} href="#" title={scene.description}>{scene.title}</a>
                     </li>
                 }</For>
             </ul>
