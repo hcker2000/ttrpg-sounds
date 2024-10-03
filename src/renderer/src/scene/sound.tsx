@@ -2,15 +2,15 @@ import { For } from 'solid-js';
 import { useStore } from "./provider";
 
 export function Sound() {
-    const { store, setStore, getSelectedScene, setSelectedScene } = useStore();
+    const { store, getSelectedScene, setSelectedScene } = useStore();
 
     const toggleLoop = (soundIndex, event) => {
-        setSelectedScene('sounds', soundIndex(), 'loop', !store.selectedScene.sounds[soundIndex()].loop)
+        const newValue = !getSelectedScene().sounds[soundIndex()].loop
+        setSelectedScene('sounds', 0, 'loop', newValue)
     }
 
     const changeVolume = (soundIndex, event) => {
         setSelectedScene('sounds', soundIndex(), 'volume', event.target.value)
-        
         // todo: if sound is playing update the volume
     }
 

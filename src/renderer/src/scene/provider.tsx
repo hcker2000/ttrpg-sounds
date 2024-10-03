@@ -1,6 +1,6 @@
 import { createContextProvider } from '@solid-primitives/context';
 import { makePersisted } from '@solid-primitives/storage'
-import { createStore, unwrap, produce } from 'solid-js/store';
+import { createStore, unwrap, produce, type SetStoreFunction } from 'solid-js/store';
 import Swal from "sweetalert2"
 import { v4 as uuidv4 } from 'uuid';
 import { Howl, Howler } from 'howler';
@@ -21,19 +21,15 @@ const defaults = {
         id: null,
         title: "",
         file: "",
-        volume: 25,
+        volume: 50,
         loop: true,
         status: false,
-        player: null
     }
 }
 
 const initialStoreValue = {
     selectedSceneId: null,
     playingSounds: false,
-    // get selectedScene() {
-    //     return this.scenes.find(obj => obj.id === this.selectedSceneId);
-    // },
     scenes: []
 }
 
@@ -131,7 +127,11 @@ const addSound = async () => {
           );
       }
 }
-const setSelectedScene = (...args) => {
+
+type Scene = (typeof store)["scenes"][number];
+const setSelectedScene: SetStoreFunction<Scene> = (...args: any[]) => {
+    console.log(args);
+    
     return setStore('scenes', ({id}) => id === store.selectedSceneId, ...args)
 }
 
@@ -196,7 +196,7 @@ export const [SceneProvider, useStore] = createContextProvider(() => {
       store: store,
       setStore: setStore,
       getSelectedScene: () => getSelectedScene(),
-      setSelectedScene: () => setSelectedScene(),
+      setSelectedScene: (...args) => setSelectedScene(...args),
       setSelectedSceneId: (scene) => setSelectedSceneId(scene),
       addScene: () => addScene(),
       addSound: () => addSound(),
