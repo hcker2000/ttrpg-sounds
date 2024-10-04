@@ -127,7 +127,7 @@ const addSound = async () => {
 
 const removeSound = async (soundId) => {
     const audioPlayer = getAudioPlayer(soundId)
-    const status = getSelectedScene().sounds.find((sound) => sound.id === soundId).status;
+    const status = getSelectedScene().sounds.find((sound) => sound.id === soundId).status
 
     // Stop any audio players that are playing for this sound and remove them
     if (status == 'playing') {
@@ -136,7 +136,7 @@ const removeSound = async (soundId) => {
     }
 
     // Remove the sound from the scene
-    setSelectedScene('sounds', sound => sound.filter(sound => sound.id !== soundId))
+    setSelectedScene('sounds', (sound) => sound.filter((sound) => sound.id !== soundId))
 }
 
 type Scene = (typeof store)['scenes'][number]
@@ -155,7 +155,7 @@ const setSelectedSceneId = (sceneId) => {
 }
 
 const getAudioPlayer = (soundId) => {
-    return audioPlayers.find(item => item.id === soundId)
+    return audioPlayers.find((item) => item.id === soundId)
 }
 
 const toggleSounds = () => {
@@ -189,12 +189,7 @@ const toggleSounds = () => {
 
             newPlayer.player.on('end', () => {
                 if (sound.loop === false) {
-                    setSelectedScene(
-                        'sounds',
-                        ({ id }) => id === sound.id,
-                        'status',
-                        'stopped'
-                    )
+                    setSelectedScene('sounds', ({ id }) => id === sound.id, 'status', 'stopped')
                 }
 
                 var updateGlobalPlayStatus = true
@@ -254,18 +249,15 @@ const setSoundVolume = (soundId, event) => {
 
 const toggleLoop = (soundId, event) => {
     const audioPlayer = getAudioPlayer(soundId)
-    
-    const newValue = !getSelectedScene().sounds.filter(
-        (sound) => sound.id === soundId
-    )[0].loop
+
+    const newValue = !getSelectedScene().sounds.filter((sound) => sound.id === soundId)[0].loop
 
     setSelectedScene('sounds', ({ id }) => id === soundId, 'loop', newValue)
 
     if (audioPlayer) {
         audioPlayer.player.loop(newValue)
     } else {
-        console.log('nope');
-        
+        console.log('nope')
     }
 }
 
@@ -285,6 +277,6 @@ export const [SceneProvider, useStore] = createContextProvider(() => {
         removeSound: (soundId) => removeSound(soundId),
         toggleSounds: () => toggleSounds(),
         setSoundVolume: (soundId, event) => setSoundVolume(soundId, event),
-        toggleLoop: (soundId, event) => toggleLoop(soundId, event),
+        toggleLoop: (soundId, event) => toggleLoop(soundId, event)
     }
 })
