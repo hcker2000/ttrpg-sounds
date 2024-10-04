@@ -164,7 +164,34 @@ const toggleSounds = () => {
             howlPlayer.volume(sound.volume * 0.01)
             howlPlayer.play()
 
-            audioPlayers.push(howlPlayer)
+            const playerIndex = audioPlayers.push(howlPlayer) - 1
+
+            console.log(playerIndex);
+            
+
+            howlPlayer.on('end', () => {
+                if (sound.loop === false) {
+                    setSelectedScene(
+                        'sounds',
+                        playerIndex,
+                        produce((thisSound) => {
+                            thisSound.status = 'stopped'
+                        })
+                    )
+                }
+
+                var updateGlobalPlayStatus = true
+
+                getSelectedScene().sounds.forEach((sound, index) => {
+                    if (sound.status == 'playing' || sound.loop === true) {
+                        updateGlobalPlayStatus = false
+                    }
+                })
+
+                if (updateGlobalPlayStatus === true) {
+                    setStore('playingSounds', false)
+                }
+            })
 
             setSelectedScene(
                 'sounds',
