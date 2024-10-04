@@ -35,6 +35,19 @@ body {
     }
 }
 
+.pulse-icon::before {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 50%, 100% { transform: scale(1, 1); }
+    30%, 80% { transform: scale(0.75, 0.75); }
+}
+
+.medium-icon {
+    font-size: 20px;
+}
+
 .scene {
     .content {
         .title {
@@ -67,9 +80,18 @@ body {
                     }
                 }
 
-                .controls {
+                .volume {
                     display: grid;
-                    grid-template-columns: fit-content(64px) fit-content(64px) 1fr;
+                    grid-template-columns: fit-content(64px) 1fr;
+                    row-gap: 10px;
+                    column-gap: 10px;
+                    grid-auto-rows: 1fr;
+                    align-items: center;
+                }
+
+                .title-row {
+                    display: grid;
+                    grid-template-columns: fit-content(64px) 1fr fit-content(64px);
                     row-gap: 10px;
                     column-gap: 10px;
                     grid-auto-rows: 1fr;
