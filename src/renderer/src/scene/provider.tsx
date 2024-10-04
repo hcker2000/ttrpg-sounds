@@ -43,7 +43,6 @@ const createInitialStoreValue = () => {
     return initialStoreValue;
 }
 
-
 const addScene = async () => {
     const { value: data } = await Swal.fire({
         title: "Add a scene",
@@ -160,7 +159,7 @@ const toggleSounds = () => {
                 src: ['media://' + sound.file],
                 loop: sound.loop,
             })
-            
+
             howlPlayer.volume(sound.volume * 0.01)
             howlPlayer.play()
 
@@ -189,6 +188,28 @@ const stopSounds = () => {
     }
 }
 
+const setSoundVolume = (soundIndex, event) => {
+    const newVolume = event.target.value
+    const audioPlayer = audioPlayers[soundIndex]
+
+    setSelectedScene('sounds', soundIndex, 'volume', newVolume)
+
+    if (audioPlayer) {
+        audioPlayer.volume(newVolume * 0.01)
+    }
+}
+
+const toggleLoop = (soundIndex, event) => {
+    const audioPlayer = audioPlayers[soundIndex]
+    const newValue = !getSelectedScene().sounds[soundIndex].loop
+
+    setSelectedScene('sounds', soundIndex, 'loop', newValue)
+
+    if (audioPlayer) {
+        audioPlayer.loop(newValue)
+    }
+}
+
 const [store, setStore] = makePersisted(createStore(createInitialStoreValue()), { name: 'ttrpg-sounds'})
 
 export const [SceneProvider, useStore] = createContextProvider(() => {
@@ -201,5 +222,7 @@ export const [SceneProvider, useStore] = createContextProvider(() => {
       addScene: () => addScene(),
       addSound: () => addSound(),
       toggleSounds: () => toggleSounds(),
+      setSoundVolume: (soundIndex, event) => setSoundVolume(soundIndex, event),
+      toggleLoop: (soundIndex, event) => toggleLoop(soundIndex, event),
     }
 });

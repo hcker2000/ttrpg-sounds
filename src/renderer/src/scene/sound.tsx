@@ -2,17 +2,7 @@ import { For } from 'solid-js';
 import { useStore } from "./provider";
 
 export function Sound() {
-    const { store, getSelectedScene, setSelectedScene } = useStore();
-
-    const toggleLoop = (soundIndex, event) => {
-        const newValue = !getSelectedScene().sounds[soundIndex()].loop
-        setSelectedScene('sounds', 0, 'loop', newValue)
-    }
-
-    const changeVolume = (soundIndex, event) => {
-        setSelectedScene('sounds', soundIndex(), 'volume', event.target.value)
-        // todo: if sound is playing update the volume
-    }
+    const { store, getSelectedScene, setSelectedScene, setSoundVolume, toggleLoop } = useStore();
 
     return (
         <div class="sounds">
@@ -27,9 +17,9 @@ export function Sound() {
                         }
                         </div>
                         <div>
-                            <i onClick={[toggleLoop, i]} class={`bi bi-arrow-repeat pointer ${sound.loop == true ? 'text-success' : '' }`}></i>
+                            <i onClick={[toggleLoop, i()]} class={`bi bi-arrow-repeat pointer ${sound.loop == true ? 'text-success' : '' }`}></i>
                         </div>
-                        <input onChange={[changeVolume, i]} type="range" class="form-range" min="0" max="100" steps="1" value={sound.volume}></input>
+                        <input onChange={[setSoundVolume, i()]} type="range" class="form-range" min="0" max="100" steps="1" value={sound.volume}></input>
                     </div>
                 </div>
             }</For>
