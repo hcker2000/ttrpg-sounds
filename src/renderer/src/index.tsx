@@ -1,4 +1,4 @@
-import { render } from "solid-js/web";
-import { Layout } from "./layout";
+import { render } from 'solid-js/web'
+import { Layout } from './layout'
 
-render(() => <Layout />, document.getElementById("app")!);
+render(() => <Layout />, document.getElementById('app')!)

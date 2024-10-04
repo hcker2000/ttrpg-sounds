@@ -1,29 +1,26 @@
-import { createContextProvider } from '@solid-primitives/context';
+import { createContextProvider } from '@solid-primitives/context'
 import { makePersisted } from '@solid-primitives/storage'
-import { createStore, unwrap, produce, type SetStoreFunction } from 'solid-js/store';
-import Swal from "sweetalert2"
-import { v4 as uuidv4 } from 'uuid';
-import { Howl, Howler } from 'howler';
+import { createStore, unwrap, produce, type SetStoreFunction } from 'solid-js/store'
+import Swal from 'sweetalert2'
+import { v4 as uuidv4 } from 'uuid'
+import { Howl, Howler } from 'howler'
 
 const defaults = {
     scene: {
         id: null,
-        title: "Hello World",
-        description: "A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to. 300 Athelas fulfilled selling. Hell profit Haleth rare! Garden reaction night ancestor prelude boys Sounds sweeps 3434. Usually titles king election foothold Thorin Oakenshield themselves stinks corrupted round fulfill. Silver unseen rampart fool Galadriel loosened feather vanquished treat named. Horn terribly reputation fellow's mercenaries crows Dwarvish worst sea convinced nothing's. Forebearers hasn't lead carcasses deputy overfond crevice maiden Gríma roaring ill-tempered is.",
-        sounds: [
-        ],
-        tags: [
-            "tavern",
-            "night"
-        ]
+        title: 'Hello World',
+        description:
+            "A wizard is never late, Frodo Baggins. Nor is he early. He arrives precisely when he means to. 300 Athelas fulfilled selling. Hell profit Haleth rare! Garden reaction night ancestor prelude boys Sounds sweeps 3434. Usually titles king election foothold Thorin Oakenshield themselves stinks corrupted round fulfill. Silver unseen rampart fool Galadriel loosened feather vanquished treat named. Horn terribly reputation fellow's mercenaries crows Dwarvish worst sea convinced nothing's. Forebearers hasn't lead carcasses deputy overfond crevice maiden Gríma roaring ill-tempered is.",
+        sounds: [],
+        tags: ['tavern', 'night']
     },
     sound: {
         id: null,
-        title: "",
-        file: "",
+        title: '',
+        file: '',
         volume: 50,
         loop: true,
-        status: false,
+        status: false
     }
 }
 
@@ -34,18 +31,18 @@ const initialStoreValue = {
 }
 
 const getSelectedScene = () => {
-    return store.scenes.find(obj => obj.id === store.selectedSceneId)
+    return store.scenes.find((obj) => obj.id === store.selectedSceneId)
 }
 
 let audioPlayers = []
 
 const createInitialStoreValue = () => {
-    return initialStoreValue;
+    return initialStoreValue
 }
 
 const addScene = async () => {
     const { value: data } = await Swal.fire({
-        title: "Add a scene",
+        title: 'Add a scene',
         html: `
             <div class="form-group mb-3">
                 <label for="titleInput">Title</label>
@@ -58,16 +55,16 @@ const addScene = async () => {
         `,
         showCancelButton: true,
         preConfirm: async () => {
-          const title = document.getElementById('titleInput').value
-          const description = document.getElementById('descriptionInput').value
-      
-          if (!title) {
-            return Swal.showValidationMessage('Please enter a title.')
-          }
-      
-          return { title, description }
+            const title = document.getElementById('titleInput').value
+            const description = document.getElementById('descriptionInput').value
+
+            if (!title) {
+                return Swal.showValidationMessage('Please enter a title.')
+            }
+
+            return { title, description }
         }
-    });
+    })
 
     if (data) {
         let newSceneObject = structuredClone(defaults.scene)
@@ -76,14 +73,14 @@ const addScene = async () => {
         newSceneObject.description = data.description
         newSceneObject.id = uuidv4()
 
-        setStore("scenes", (scenes) => [...scenes, newSceneObject])
+        setStore('scenes', (scenes) => [...scenes, newSceneObject])
     }
 }
 
 const addSound = async () => {
     stopSounds()
     const { value: data } = await Swal.fire({
-        title: "Add new sound",
+        title: 'Add new sound',
         html: `
             <div class="form-group mb-3">
                 <label for="titleInput">Title</label>
@@ -96,50 +93,50 @@ const addSound = async () => {
         `,
         showCancelButton: true,
         preConfirm: async () => {
-          const title = document.getElementById('titleInput').value
-          const sound = document.getElementById('soundInput').files[0]
-      
-          if (!title) {
-            return Swal.showValidationMessage('Please enter a title.')
-          }
-      
-          if (!sound) {
-            return Swal.showValidationMessage('Please select a sound file.')
-          }
-      
-          return { title, sound }
+            const title = document.getElementById('titleInput').value
+            const sound = document.getElementById('soundInput').files[0]
+
+            if (!title) {
+                return Swal.showValidationMessage('Please enter a title.')
+            }
+
+            if (!sound) {
+                return Swal.showValidationMessage('Please select a sound file.')
+            }
+
+            return { title, sound }
         }
-      })
-      
-      if (data) {
+    })
+
+    if (data) {
         let newSound = structuredClone(defaults.sound)
-      
+
         newSound.title = data.title
         newSound.file = data.sound.path
         newSound.id = uuidv4()
 
         setStore(
-            "scenes",
+            'scenes',
             (scene) => scene.id === store.selectedSceneId,
-            "sounds",
-            (sounds) => [...sounds, newSound],
-          );
-      }
+            'sounds',
+            (sounds) => [...sounds, newSound]
+        )
+    }
 }
 
-type Scene = (typeof store)["scenes"][number];
+type Scene = (typeof store)['scenes'][number]
 const setSelectedScene: SetStoreFunction<Scene> = (...args: any[]) => {
-    console.log(args);
-    
-    return setStore('scenes', ({id}) => id === store.selectedSceneId, ...args)
+    console.log(args)
+
+    return setStore('scenes', ({ id }) => id === store.selectedSceneId, ...args)
 }
 
 const setSelectedSceneId = (sceneId) => {
     if (store.selectedSceneId != null) {
         stopSounds()
     }
-    setStore("playingSounds", false)
-    setStore("selectedSceneId", sceneId)
+    setStore('playingSounds', false)
+    setStore('selectedSceneId', sceneId)
 }
 
 const toggleSounds = () => {
@@ -147,27 +144,35 @@ const toggleSounds = () => {
         if (sound.status == 'playing') {
             Howler.stop()
             audioPlayers = []
-            
-            setStore("playingSounds", false)
-            setSelectedScene('sounds', index, produce((thisSound) => {
-                thisSound.status = 'stopped'
-            }))
+
+            setStore('playingSounds', false)
+            setSelectedScene(
+                'sounds',
+                index,
+                produce((thisSound) => {
+                    thisSound.status = 'stopped'
+                })
+            )
         } else {
-            setStore("playingSounds", true)
+            setStore('playingSounds', true)
 
             let howlPlayer = new Howl({
                 src: ['media://' + sound.file],
-                loop: sound.loop,
+                loop: sound.loop
             })
 
             howlPlayer.volume(sound.volume * 0.01)
             howlPlayer.play()
 
-            audioPlayers.push(howlPlayer);
+            audioPlayers.push(howlPlayer)
 
-            setSelectedScene('sounds', index, produce((thisSound) => {
-                thisSound.status ='playing'
-            }))
+            setSelectedScene(
+                'sounds',
+                index,
+                produce((thisSound) => {
+                    thisSound.status = 'playing'
+                })
+            )
         }
     })
 }
@@ -176,14 +181,18 @@ const stopSounds = () => {
     Howler.stop()
     audioPlayers = []
 
-    const selectedScene = getSelectedScene();
-    
+    const selectedScene = getSelectedScene()
+
     if (selectedScene != null) {
         selectedScene.sounds.forEach((sound, index) => {
-            setStore("playingSounds", false)
-            setSelectedScene('sounds', index, produce((thisSound) => {
-                thisSound.status = 'stopped'
-            }))
+            setStore('playingSounds', false)
+            setSelectedScene(
+                'sounds',
+                index,
+                produce((thisSound) => {
+                    thisSound.status = 'stopped'
+                })
+            )
         })
     }
 }
@@ -210,19 +219,21 @@ const toggleLoop = (soundIndex, event) => {
     }
 }
 
-const [store, setStore] = makePersisted(createStore(createInitialStoreValue()), { name: 'ttrpg-sounds'})
+const [store, setStore] = makePersisted(createStore(createInitialStoreValue()), {
+    name: 'ttrpg-sounds'
+})
 
 export const [SceneProvider, useStore] = createContextProvider(() => {
     return {
-      store: store,
-      setStore: setStore,
-      getSelectedScene: () => getSelectedScene(),
-      setSelectedScene: (...args) => setSelectedScene(...args),
-      setSelectedSceneId: (scene) => setSelectedSceneId(scene),
-      addScene: () => addScene(),
-      addSound: () => addSound(),
-      toggleSounds: () => toggleSounds(),
-      setSoundVolume: (soundIndex, event) => setSoundVolume(soundIndex, event),
-      toggleLoop: (soundIndex, event) => toggleLoop(soundIndex, event),
+        store: store,
+        setStore: setStore,
+        getSelectedScene: () => getSelectedScene(),
+        setSelectedScene: (...args) => setSelectedScene(...args),
+        setSelectedSceneId: (scene) => setSelectedSceneId(scene),
+        addScene: () => addScene(),
+        addSound: () => addSound(),
+        toggleSounds: () => toggleSounds(),
+        setSoundVolume: (soundIndex, event) => setSoundVolume(soundIndex, event),
+        toggleLoop: (soundIndex, event) => toggleLoop(soundIndex, event)
     }
-});
+})

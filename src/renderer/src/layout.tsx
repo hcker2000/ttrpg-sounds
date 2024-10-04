@@ -1,7 +1,5 @@
-import { Scene } from "./scene/scene";
+import { Scene } from './scene/scene'
 
 export function Layout() {
-    return (
-        <Scene />
-    );
+    return <Scene />
 }

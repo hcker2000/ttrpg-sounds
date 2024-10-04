@@ -4,8 +4,8 @@ This provides an easy way to share a quadrant of your 4k monitor with MS Teams.
 
 ## Features
 
-- Follow Mouse
-- Region Indicator
+-   Follow Mouse
+-   Region Indicator
 
 ## Why?
 
@@ -21,7 +21,7 @@ Me
 
 ## Recommended IDE Setup
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+-   [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
 ## Project Setup
 
