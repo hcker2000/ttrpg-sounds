@@ -256,8 +256,6 @@ const toggleLoop = (soundId, event) => {
 
     if (audioPlayer) {
         audioPlayer.player.loop(newValue)
-    } else {
-        console.log('nope')
     }
 }
 

@@ -71,21 +71,10 @@ body {
         .sounds-wrapper {
             .sounds {
                 display: grid;
-                grid-template-columns: 1fr;
-                row-gap: 10px;
-                column-gap: 10px;
-
-                @media (min-width: 768px) {
-                    & {
-                        grid-template-columns: 1fr 1fr;
-                    }
-                }
-
-                @media (min-width: 1920px) {
-                    & {
-                        grid-template-columns: 1fr 1fr 1fr;
-                    }
-                }
+                row-gap: 15px;
+                column-gap: 15px;
+                --auto-grid-min-size: 300px;
+                grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
 
                 .volume {
                     display: grid;
