@@ -166,9 +166,6 @@ const toggleSounds = () => {
 
             const playerIndex = audioPlayers.push(howlPlayer) - 1
 
-            console.log(playerIndex);
-            
-
             howlPlayer.on('end', () => {
                 if (sound.loop === false) {
                     setSelectedScene(
