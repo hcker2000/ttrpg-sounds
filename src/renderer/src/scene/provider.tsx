@@ -1,6 +1,6 @@
 import { createContextProvider } from '@solid-primitives/context'
 import { makePersisted } from '@solid-primitives/storage'
-import { createStore, unwrap, produce, type SetStoreFunction } from 'solid-js/store'
+import { createStore, produce, type SetStoreFunction } from 'solid-js/store'
 import Swal from 'sweetalert2'
 import { v4 as uuidv4 } from 'uuid'
 import { Howl, Howler } from 'howler'

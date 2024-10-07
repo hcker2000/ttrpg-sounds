@@ -55,11 +55,26 @@ body {
     font-size: 20px;
 }
 
+.quick-play {
+    display: grid;
+    align-items: center;
+
+    .expander {
+        text-orientation: mixed;
+        writing-mode: vertical-lr;
+    }
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr fit-content(64px);
+}
+
 .scene {
     .content {
         .title {
             display: grid;
-            grid-template-columns: 1fr fit-content(64px);
+            grid-template-columns: 1fr fit-content(32px);
             row-gap: 10px;
             grid-auto-rows: 1fr;
             align-items: center;
