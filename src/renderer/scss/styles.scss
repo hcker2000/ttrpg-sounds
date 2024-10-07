@@ -112,3 +112,22 @@ body {
         }
     }
 }
+
+.quick-play {
+    .sounds {
+        display: grid;
+        row-gap: 15px;
+        column-gap: 15px;
+        --auto-grid-min-size: 300px;
+        grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
+
+        .volume {
+            display: grid;
+            grid-template-columns: fit-content(64px) 1fr fit-content(64px);
+            row-gap: 10px;
+            column-gap: 10px;
+            grid-auto-rows: 1fr;
+            align-items: center;
+        }
+    }
+}

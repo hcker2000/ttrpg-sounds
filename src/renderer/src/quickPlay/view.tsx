@@ -1,11 +1,16 @@
+import { useStore, QuickSoundProvider } from './provider'
+import { Sound } from './sound'
+
 export function QuickPlay() {
+    const { store, addSound, setSoundVolume, removeSound } = useStore()
+
     return (
         <div class="quick-play">
-                <div
+            <div
                 class="expander pointer border border-end-0 rounded-start ps-1 pt-3 pb-3"
                 onClick={(e) => {
-                    const element = document.getElementById('offcanvasRight');
-                    element.classList.add("show");
+                    const element = document.getElementById('offcanvasRight')
+                    element.classList.add('show')
                 }}
             >
                 Quick Play
@@ -19,19 +24,22 @@ export function QuickPlay() {
             >
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasRightLabel">
-                    <i class="bi bi-plus-circle-fill"></i> Quick Sounds
+                        <i class="bi bi-plus-circle-fill pointer" onClick={addSound}></i> Quick
+                        Sounds
                     </h5>
                     <button
                         type="button"
                         class="btn-close"
                         aria-label="Close"
                         onClick={(e) => {
-                            const element = document.getElementById('offcanvasRight');
-                            element.classList.remove("show");
+                            const element = document.getElementById('offcanvasRight')
+                            element.classList.remove('show')
                         }}
                     ></button>
                 </div>
-                <div class="offcanvas-body">...</div>
+                <div class="offcanvas-body list">
+                    <Sound></Sound>
+                </div>
             </div>
         </div>
     )

@@ -11,8 +11,7 @@ const defaults = {
         title: '',
         file: '',
         volume: 50,
-        loop: true,
-        status: false
+        status: 'stopped'
     }
 }
 
@@ -20,9 +19,11 @@ const initialStoreValue = {
     sounds: []
 }
 
+let audioPlayers = []
+
 const addSound = async () => {
     const { value: data } = await Swal.fire({
-        title: 'Add new sound',
+        title: 'Add new quick sound',
         html: `
             <div class="form-group mb-3">
                 <label for="titleInput">Title</label>
@@ -66,32 +67,52 @@ const addSound = async () => {
 
 const removeSound = async (soundId) => {
     const audioPlayer = getAudioPlayer(soundId)
-    const status = getSelectedScene().sounds.find((sound) => sound.id === soundId).status
-
-    // Stop any audio players that are playing for this sound and remove them
-    if (status == 'playing') {
+    
+    if (audioPlayer) {
         audioPlayer.player.stop()
-        //!= how? delete audioPlayer
     }
 
-    // Remove the sound from the scene
-    setSelectedScene('sounds', (sound) => sound.filter((sound) => sound.id !== soundId))
+    setStore('sounds', (sound) => sound.filter((sound) => sound.id !== soundId))
 }
 
 const getAudioPlayer = (soundId) => {
     return audioPlayers.find((item) => item.id === soundId)
 }
 
+const playSound = (sound) => {
+        setStore('sounds', ({ id }) => id === sound.id, 'status', 'playing')
+
+        let newPlayer = {
+            id: sound.id,
+            player: new Howl({
+                src: ['media://' + sound.file],
+                loop: false
+            })
+        }
+
+        newPlayer.player.volume(sound.volume * 0.01)
+        newPlayer.player.play()
+
+        const index = audioPlayers.push(newPlayer) - 1
+
+        newPlayer.player.on('end', () => {
+            const index = audioPlayers.findIndex(obj => obj.id == sound.id)
+            audioPlayers.splice(index, 1)
+        })
+}
+
+
+// unused at this point
 const stopSound = (soundId) => {
-    Howler.stop()
-    audioPlayers = []
+    const audioPlayer = getAudioPlayer(soundId)
+    audioPlayer.player.stop()
 }
 
 const setSoundVolume = (soundId, event) => {
     const audioPlayer = getAudioPlayer(soundId)
     const newVolume = event.target.value
 
-    setSelectedScene('sounds', ({ id }) => id === soundId, 'volume', newVolume)
+    setStore('sounds', ({ id }) => id === soundId, 'volume', newVolume)
 
     if (audioPlayer) {
         audioPlayer.player.volume(newVolume * 0.01)
@@ -112,7 +133,7 @@ export const [QuickSoundProvider, useStore] = createContextProvider(() => {
         setStore: setStore,
         addSound: () => addSound(),
         removeSound: (soundId) => removeSound(soundId),
-        toggleSound: (soundId) => toggleSound(soundId),
+        playSound: (soundId) => playSound(soundId),
         setSoundVolume: (soundId, event) => setSoundVolume(soundId, event)
     }
 })
