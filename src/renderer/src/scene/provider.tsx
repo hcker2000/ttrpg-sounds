@@ -141,7 +141,7 @@ const removeSound = async (soundId) => {
 
 type Scene = (typeof store)['scenes'][number]
 const setSelectedScene: SetStoreFunction<Scene> = (...args: any[]) => {
-    console.log(args)
+    // console.log(args)
 
     return setStore('scenes', ({ id }) => id === store.selectedSceneId, ...args)
 }
@@ -159,20 +159,22 @@ const getAudioPlayer = (soundId) => {
 }
 
 const toggleSounds = () => {
-    getSelectedScene().sounds.forEach((sound, index) => {
-        if (sound.status == 'playing') {
-            Howler.stop()
-            audioPlayers = []
+    const playingSounds = store.playingSounds
+    const selectedScene = getSelectedScene()
 
-            setStore('playingSounds', false)
-            setSelectedScene(
-                'sounds',
-                index,
-                produce((thisSound) => {
-                    thisSound.status = 'stopped'
-                })
-            )
-        } else {
+    if (playingSounds === true) {
+        Howler.stop()
+        audioPlayers = []
+        setSelectedScene(
+            'sounds',
+            { from: 0, to: selectedScene.sounds.length - 1 },
+            'status',
+            'stopped'
+        )
+        console.log(audioPlayers);
+        
+    } else {
+        selectedScene.sounds.forEach((sound, index) => {
             let newPlayer = {
                 id: sound.id,
                 player: new Howl({
@@ -180,7 +182,6 @@ const toggleSounds = () => {
                     loop: sound.loop
                 })
             }
-            setStore('playingSounds', true)
 
             newPlayer.player.volume(sound.volume * 0.01)
             newPlayer.player.play()
@@ -194,8 +195,8 @@ const toggleSounds = () => {
 
                 var updateGlobalPlayStatus = true
 
-                getSelectedScene().sounds.forEach((sound, index) => {
-                    if (sound.status == 'playing' || sound.loop === true) {
+                selectedScene.sounds.forEach((sound, index) => {
+                    if (sound.status == 'playing') {
                         updateGlobalPlayStatus = false
                     }
                 })
@@ -208,12 +209,13 @@ const toggleSounds = () => {
             setSelectedScene(
                 'sounds',
                 index,
-                produce((thisSound) => {
-                    thisSound.status = 'playing'
-                })
+                'status',
+                'playing'
             )
-        }
-    })
+        })
+    }
+
+    setStore('playingSounds', !playingSounds)
 }
 
 const stopSounds = () => {
@@ -222,18 +224,13 @@ const stopSounds = () => {
 
     const selectedScene = getSelectedScene()
 
-    if (selectedScene != null && selectedScene.sounds != null) {
-        selectedScene.sounds.forEach((sound, index) => {
-            setStore('playingSounds', false)
-            setSelectedScene(
-                'sounds',
-                index,
-                produce((thisSound) => {
-                    thisSound.status = 'stopped'
-                })
-            )
-        })
-    }
+    setStore('playingSounds', false)
+    setSelectedScene(
+        'sounds',
+        { from: 0, to: selectedScene.sounds.length - 1 },
+        'status',
+        'stopped'
+    )
 }
 
 const setSoundVolume = (soundId, event) => {
