@@ -1,5 +1,6 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
 
 body {
     // background-image: url( '../assets/wavy-lines.svg' );
@@ -62,6 +63,58 @@ body {
     .expander {
         text-orientation: mixed;
         writing-mode: vertical-lr;
+    }
+}
+
+
+
+@keyframes fade-out {
+    from { opacity: 1 }
+      to { opacity: 0 }
+}
+
+@keyframes fade-in {
+    from { opacity: 0 }
+      to { opacity: 1 }
+}
+
+.fader.fade-out {
+    opacity: 0;
+    animation: 2s  fade-out;
+}
+
+.fader.fade-in {
+    opacity: 1;
+    animation: 2s fade-in;
+}
+
+.splash {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    display: grid;
+    align-content: space-around;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+
+    figure {
+        img {
+            width: 50vw;
+            height: 50vh;
+            border-radius: 128px;
+            object-fit: contain;
+            filter: drop-shadow(2px 4px 6px #00f);
+        }
+
+        figcaption {
+            text-align: center;
+            font-family: "Orbitron";
+            font-size: 5vw;
+            font-optical-sizing: auto;
+            filter: drop-shadow(2px 4px 6px #00f);
+        }
     }
 }
 

@@ -4,7 +4,7 @@
     "description": "TTRPG Sounds",
     "main": "./out/main/index.mjs",
     "author": "Mike Ashcraft",
-    "homepage": "https://github.com/hcker2000/scree-share",
+    "homepage": "https://github.com/hcker2000/ttrpg-sounds",
     "scripts": {
         "format": "prettier --write .",
         "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",

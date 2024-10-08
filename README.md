@@ -1,19 +1,14 @@
-# Scree Share
+# TTRPG Sounds
 
-This provides an easy way to share a quadrant of your 4k monitor with MS Teams.
-
-## Features
-
--   Follow Mouse
--   Region Indicator
+Easy to use sound board allows for you to setup scenes with repeating sounds as well as a Quick Play drawer for action sounds like bows, sword clashes, etc...
 
 ## Why?
 
-Switching between windows to share in MS Teams sucks, so I made this to allow me to dock my windows in the quadrants of my 4k monitor and share one of those quadrants. This way I can switch which quadrant is being shown with a hot key (Ctrl+Alt+r) or enable the option to follow my mouse and change to the quadrant it is currently in.
+There is a disturbing trend to make everything online. This provides a completely offline/local experience without needing to pay for anything. 
 
 ## How?
 
-This app is built on electron. I started off with a base electron-vite app and added what was needed to get the job done.
+This app is built on electron. I know this makes the app much larger than it would be with other tech but I know web dev and this makes the initial dev quick and the maintenance easy.
 
 ## Used By
 
