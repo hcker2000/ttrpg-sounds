@@ -11,6 +11,7 @@ export function QuickPlay() {
                 onClick={(e) => {
                     const element = document.getElementById('offcanvasRight')
                     element.classList.add('show')
+                    element.classList.remove('hiding')
                 }}
             >
                 Quick Play
@@ -34,6 +35,7 @@ export function QuickPlay() {
                         onClick={(e) => {
                             const element = document.getElementById('offcanvasRight')
                             element.classList.remove('show')
+                            element.classList.add('hiding')
                         }}
                     ></button>
                 </div>
