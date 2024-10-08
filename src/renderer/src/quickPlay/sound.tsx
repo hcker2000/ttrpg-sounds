@@ -9,7 +9,12 @@ export function Sound() {
             <For each={store.sounds}>
                 {(sound, i) => (
                     <div class="sound p-2 border rounded">
-                        <div onClick={[playSound, sound]} class="text-center cursor btn btn-light w-100 mb-2">{sound.title}</div>
+                        <div
+                            onClick={[playSound, sound]}
+                            class="text-center cursor btn btn-light w-100 mb-2"
+                        >
+                            {sound.title}
+                        </div>
                         <div class="volume">
                             <div>
                                 <i class="bi bi-volume-up-fill medium-icon"></i>

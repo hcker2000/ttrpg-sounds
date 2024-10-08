@@ -6,8 +6,8 @@ export function Scene() {
     return (
         <SceneProvider>
             <div class="scene container-fluid min-vh-100 d-flex flex-column">
-                <div class="row flex-grow-1">
-                    <div class="col-md-3 col-xl-2 border-end pe-3 pt-3 pb-3">
+                <div class="row flex-grow-0 flex-md-grow-1">
+                    <div class="nav-container bg-secondary-subtle col-md-3 col-xl-2 pe-3 pt-3 pb-3">
                         <Nav />
                     </div>
 

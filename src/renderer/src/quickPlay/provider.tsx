@@ -58,16 +58,13 @@ const addSound = async () => {
         newSound.file = data.sound.path
         newSound.id = uuidv4()
 
-        setStore(
-            'sounds',
-            (sounds) => [...sounds, newSound]
-        )
+        setStore('sounds', (sounds) => [...sounds, newSound])
     }
 }
 
 const removeSound = async (soundId) => {
     const audioPlayer = getAudioPlayer(soundId)
-    
+
     if (audioPlayer) {
         audioPlayer.player.stop()
     }
@@ -80,27 +77,26 @@ const getAudioPlayer = (soundId) => {
 }
 
 const playSound = (sound) => {
-        setStore('sounds', ({ id }) => id === sound.id, 'status', 'playing')
+    setStore('sounds', ({ id }) => id === sound.id, 'status', 'playing')
 
-        let newPlayer = {
-            id: sound.id,
-            player: new Howl({
-                src: ['media://' + sound.file],
-                loop: false
-            })
-        }
-
-        newPlayer.player.volume(sound.volume * 0.01)
-        newPlayer.player.play()
-
-        const index = audioPlayers.push(newPlayer) - 1
-
-        newPlayer.player.on('end', () => {
-            const index = audioPlayers.findIndex(obj => obj.id == sound.id)
-            audioPlayers.splice(index, 1)
+    let newPlayer = {
+        id: sound.id,
+        player: new Howl({
+            src: ['media://' + sound.file],
+            loop: false
         })
-}
+    }
 
+    newPlayer.player.volume(sound.volume * 0.01)
+    newPlayer.player.play()
+
+    const index = audioPlayers.push(newPlayer) - 1
+
+    newPlayer.player.on('end', () => {
+        const index = audioPlayers.findIndex((obj) => obj.id == sound.id)
+        audioPlayers.splice(index, 1)
+    })
+}
 
 // unused at this point
 const stopSound = (soundId) => {

@@ -171,8 +171,7 @@ const toggleSounds = () => {
             'status',
             'stopped'
         )
-        console.log(audioPlayers);
-        
+        console.log(audioPlayers)
     } else {
         selectedScene.sounds.forEach((sound, index) => {
             let newPlayer = {
@@ -206,12 +205,7 @@ const toggleSounds = () => {
                 }
             })
 
-            setSelectedScene(
-                'sounds',
-                index,
-                'status',
-                'playing'
-            )
+            setSelectedScene('sounds', index, 'status', 'playing')
         })
     }
 
