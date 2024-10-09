@@ -11,7 +11,7 @@ export function Content() {
                 <h3 class="mb-0">{getSelectedScene().title}</h3>
                 <i
                     onClick={toggleSounds}
-                    class={`bi bi-play-circle-fill pointer play-pause ${store.playingSounds == true ? 'text-success' : ''}`}
+                    class={`bi pointer play-pause ${store.playingSounds == true ? 'text-success bi-stop-circle-fill' : 'bi-play-circle-fill'}`}
                 ></i>
             </div>
             <div class="mb-3">{getSelectedScene().description}</div>

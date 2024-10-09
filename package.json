@@ -1,6 +1,6 @@
 {
     "name": "ttrpg-sounds",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "TTRPG Sounds",
     "main": "./out/main/index.mjs",
     "author": "Mike Ashcraft",
@@ -15,7 +15,8 @@
         "build:unpack": "npm run build && electron-builder --dir",
         "build:win": "npm run build && electron-builder --win",
         "build:mac": "npm run build && electron-builder --mac",
-        "build:linux": "npm run build && electron-builder --linux AppImage"
+        "build:linux": "npm run build && electron-builder --linux AppImage",
+        "publish": "electron-builder publish"
     },
     "dependencies": {
         "@electron-toolkit/preload": "^3.0.1",

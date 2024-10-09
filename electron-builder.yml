@@ -1,4 +1,4 @@
-appId: com.electron.app
+appId: com.hnetinc.ttrpg-sounds.app
 productName: ttrpg-sounds
 directories:
     buildResources: build
@@ -12,6 +12,7 @@ asarUnpack:
     - resources/**
 win:
     executableName: ttrpg-sounds
+
 nsis:
     artifactName: ${name}-${version}-setup.${ext}
     shortcutName: ${productName}

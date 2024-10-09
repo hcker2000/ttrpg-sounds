@@ -2,7 +2,7 @@ import { useStore, QuickSoundProvider } from './provider'
 import { Sound } from './sound'
 
 export function QuickPlay() {
-    const { store, addSound, setSoundVolume, removeSound } = useStore()
+    const { store, addSound, setSearch } = useStore()
 
     return (
         <div class="quick-play">
@@ -24,20 +24,27 @@ export function QuickPlay() {
                 aria-labelledby="offcanvasRightLabel"
             >
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasRightLabel">
-                        <i class="bi bi-plus-circle-fill pointer" onClick={addSound}></i> Quick
-                        Sounds
-                    </h5>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        aria-label="Close"
+                    <div class="input-group me-3">
+                        <button class="btn btn-outline-success" type="button" onClick={addSound}>
+                            <i class="bi bi-plus-circle-fill"></i>
+                        </button>
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search"
+                            onInput={(e) => {
+                                setSearch(e.target.value)
+                            }}
+                        />
+                    </div>
+                    <i
+                        class="bi bi-chevron-right pointer medium-icon"
                         onClick={(e) => {
                             const element = document.getElementById('offcanvasRight')
                             element.classList.remove('show')
                             element.classList.add('hiding')
                         }}
-                    ></button>
+                    ></i>
                 </div>
                 <div class="offcanvas-body list">
                     <Sound></Sound>

@@ -2,11 +2,11 @@ import { For } from 'solid-js'
 import { useStore } from './provider'
 
 export function Sound() {
-    const { store, setSoundVolume, removeSound, playSound } = useStore()
+    const { store, setSoundVolume, removeSound, playSound, getSounds } = useStore()
 
     return (
         <div class="sounds">
-            <For each={store.sounds}>
+            <For each={getSounds()}>
                 {(sound, i) => (
                     <div class="sound p-2 border rounded">
                         <div

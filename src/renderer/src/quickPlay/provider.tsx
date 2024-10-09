@@ -4,6 +4,7 @@ import { createStore, unwrap, produce, type SetStoreFunction } from 'solid-js/st
 import Swal from 'sweetalert2'
 import { v4 as uuidv4 } from 'uuid'
 import { Howl, Howler } from 'howler'
+import { createMemo } from 'solid-js'
 
 const defaults = {
     sound: {
@@ -11,12 +12,14 @@ const defaults = {
         title: '',
         file: '',
         volume: 50,
-        status: 'stopped'
+        status: 'stopped',
+        visible: true
     }
 }
 
 const initialStoreValue = {
-    sounds: []
+    sounds: [],
+    search: ''
 }
 
 let audioPlayers = []
@@ -115,12 +118,23 @@ const setSoundVolume = (soundId, event) => {
     }
 }
 
+const setSearch = (value) => {
+    setStore('search', value)
+}
+
 const createInitialStoreValue = () => {
     return initialStoreValue
 }
 
 const [store, setStore] = makePersisted(createStore(createInitialStoreValue()), {
     name: 'ttrpg-sounds-quick'
+})
+const getSounds = createMemo(() => {
+    if (store.search == '') {
+        return store.sounds
+    }
+
+    return store.sounds.filter((obj) => obj.title.includes(store.search))
 })
 
 export const [QuickSoundProvider, useStore] = createContextProvider(() => {
@@ -130,6 +144,8 @@ export const [QuickSoundProvider, useStore] = createContextProvider(() => {
         addSound: () => addSound(),
         removeSound: (soundId) => removeSound(soundId),
         playSound: (soundId) => playSound(soundId),
-        setSoundVolume: (soundId, event) => setSoundVolume(soundId, event)
+        setSoundVolume: (soundId, event) => setSoundVolume(soundId, event),
+        setSearch: (value) => setSearch(value),
+        getSounds: () => getSounds()
     }
 })
