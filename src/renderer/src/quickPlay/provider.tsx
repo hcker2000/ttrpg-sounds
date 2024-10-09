@@ -82,7 +82,7 @@ const playSound = (sound) => {
     let newPlayer = {
         id: sound.id,
         player: new Howl({
-            src: ['media://' + sound.file],
+            src: ['file://' + sound.file],
             loop: false
         })
     }

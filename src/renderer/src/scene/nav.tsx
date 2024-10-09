@@ -35,7 +35,7 @@ export function Nav() {
             <select
                 class="form-select d-md-none"
                 aria-label="Default select example"
-                value={(getSelectedScene()) ? getSelectedScene().id : ''}
+                value={getSelectedScene() ? getSelectedScene().id : ''}
                 onChange={(e) => setSelectedSceneId(e.target.value)}
             >
                 <For each={store.scenes}>

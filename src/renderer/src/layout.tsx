@@ -2,7 +2,7 @@ import { QuickPlay } from './quickPlay/view'
 import { Scene } from './scene/scene'
 import { QuickSoundProvider } from './quickPlay/provider'
 import svgIconUrl from '../assets/icon.svg'
-import { onMount } from 'solid-js';
+import { onMount } from 'solid-js'
 
 export function Layout() {
     onMount(() => {
@@ -13,7 +13,7 @@ export function Layout() {
                 splashScreen.classList.add('d-none')
             }, 2000)
         }, 2000)
-    });
+    })
 
     return (
         <>

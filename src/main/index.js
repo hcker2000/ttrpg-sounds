@@ -1,29 +1,8 @@
-import {
-    app,
-    shell,
-    BrowserWindow,
-    ipcMain,
-    desktopCapturer,
-    globalShortcut,
-    protocol,
-    net
-} from 'electron'
-import path, { join } from 'path'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import '../renderer/scss/styles.scss'
-
-protocol.registerSchemesAsPrivileged([
-    {
-        scheme: 'media',
-        privileges: {
-            secure: true,
-            supportFetchAPI: true,
-            bypassCSP: true,
-            stream: true
-        }
-    }
-])
 
 function createControlWindow() {
     const window = new BrowserWindow({
@@ -35,10 +14,8 @@ function createControlWindow() {
         ...(process.platform === 'linux' ? { icon } : {}),
         webPreferences: {
             preload: join(__dirname, '../preload/index.js'),
-            sandbox: false,
-            nodeIntegration: true,
-            contextIsolation: false,
-            enableRemoteModule: true,
+            webSecurity: app.isPackaged,
+            allowRunningInsecureContent: false,
             backgroundThrottling: false
         }
     })
@@ -81,22 +58,9 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createControlWindow()
     })
 
-    protocol.handle('media', function (request) {
-        return net.fetch('file://' + request.url.slice('media://'.length))
-    })
-
     let controlWindow = createControlWindow()
 
     controlWindow.show()
-
-    ipcMain.on('showVideoWindow', () => {
-        videoWindow.show()
-        if (settings.showRegion == true) {
-            indicatorWindow.show()
-        } else {
-            indicatorWindow.hide()
-        }
-    })
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -110,9 +74,6 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
-ipcMain.handle('getSources', async () => {
-    return await desktopCapturer.getSources({ types: ['window', 'screen'] })
-})
 
 ipcMain.handle('getOperatingSystem', () => {
     return process.platform

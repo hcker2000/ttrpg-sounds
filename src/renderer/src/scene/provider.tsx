@@ -177,7 +177,7 @@ const toggleSounds = () => {
             let newPlayer = {
                 id: sound.id,
                 player: new Howl({
-                    src: ['media://' + sound.file],
+                    src: ['file://' + sound.file],
                     loop: sound.loop
                 })
             }

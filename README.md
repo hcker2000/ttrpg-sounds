@@ -4,7 +4,7 @@ Easy to use sound board allows for you to setup scenes with repeating sounds as 
 
 ## Why?
 
-There is a disturbing trend to make everything online. This provides a completely offline/local experience without needing to pay for anything. 
+There is a disturbing trend to make everything online. This provides a completely offline/local experience without needing to pay for anything.
 
 ## How?
 
