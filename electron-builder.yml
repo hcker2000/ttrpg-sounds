@@ -11,7 +11,7 @@ files:
 asarUnpack:
     - resources/**
 win:
-    executableName: scree-share
+    executableName: ttrpg-sounds
 nsis:
     artifactName: ${name}-${version}-setup.${ext}
     shortcutName: ${productName}
