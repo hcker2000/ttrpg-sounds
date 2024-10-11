@@ -1,6 +1,6 @@
 {
     "name": "ttrpg-sounds",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "TTRPG Sounds",
     "main": "./out/main/index.mjs",
     "author": "Mike Ashcraft",
@@ -30,6 +30,7 @@
         "electron-settings": "^4.0.4",
         "electron-store": "^10.0.0",
         "howler": "^2.2.4",
+        "solid-bootstrap": "^1.0.20",
         "solid-js": "^1.9.1",
         "sweetalert2": "^11.14.1",
         "uuid": "^10.0.0"

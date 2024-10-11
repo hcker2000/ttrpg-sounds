@@ -4,6 +4,7 @@ import { createStore, produce, type SetStoreFunction } from 'solid-js/store'
 import Swal from 'sweetalert2'
 import { v4 as uuidv4 } from 'uuid'
 import { Howl, Howler } from 'howler'
+import { Scene } from './scene'
 
 const defaults = {
     scene: {
@@ -77,6 +78,11 @@ const addScene = async () => {
     }
 }
 
+const removeScene = (sceneId) => {
+    setStore('scenes', (scene) => scene.filter((scene) => scene.id !== sceneId))
+    setSelectedSceneId('');
+}
+
 const addSound = async () => {
     stopSounds()
 
@@ -147,11 +153,12 @@ const setSelectedScene: SetStoreFunction<Scene> = (...args: any[]) => {
 }
 
 const setSelectedSceneId = (sceneId) => {
+    setStore('playingSounds', false)
+    setStore('selectedSceneId', sceneId)
+    
     if (store.selectedSceneId != null) {
         stopSounds()
     }
-    setStore('playingSounds', false)
-    setStore('selectedSceneId', sceneId)
 }
 
 const getAudioPlayer = (soundId) => {
@@ -262,6 +269,7 @@ export const [SceneProvider, useStore] = createContextProvider(() => {
         setSelectedScene: (...args) => setSelectedScene(...args),
         setSelectedSceneId: (scene) => setSelectedSceneId(scene),
         addScene: () => addScene(),
+        removeScene: (sceneId) => removeScene(sceneId),
         addSound: () => addSound(),
         removeSound: (soundId) => removeSound(soundId),
         toggleSounds: () => toggleSounds(),

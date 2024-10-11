@@ -134,7 +134,7 @@ const getSounds = createMemo(() => {
         return store.sounds
     }
 
-    return store.sounds.filter((obj) => obj.title.includes(store.search))
+    return store.sounds.filter((obj) => obj.title.toLowerCase().includes(store.search))
 })
 
 export const [QuickSoundProvider, useStore] = createContextProvider(() => {

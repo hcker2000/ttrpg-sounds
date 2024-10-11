@@ -1,9 +1,10 @@
 import { Show } from 'solid-js'
 import { useStore } from './provider'
 import { Sound } from './sound'
+import { Dropdown } from 'solid-bootstrap'
 
 export function Content() {
-    const { store, getSelectedScene, addSound, toggleSounds } = useStore()
+    const { store, getSelectedScene, addSound, toggleSounds, removeScene } = useStore()
 
     return (
         <Show when={getSelectedScene()} fallback={<div></div>}>
@@ -14,7 +15,19 @@ export function Content() {
                     class={`bi pointer play-pause ${store.playingSounds == true ? 'text-success bi-stop-circle-fill' : 'bi-play-circle-fill'}`}
                 ></i>
             </div>
-            <div class="mb-3">{getSelectedScene().description}</div>
+            <div class="description mb-3">
+                <div>{getSelectedScene().description}</div>
+                <Dropdown>
+                    <Dropdown.Toggle as="div" class="pointer">
+                        <i class="bi bi-three-dots-vertical"></i>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={[removeScene, getSelectedScene().id]}>
+                            <i class="bi bi-trash-fill"></i> Delete
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
             <div class="sounds-wrapper">
                 <div class="header">
                     <div class="strike">

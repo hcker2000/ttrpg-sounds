@@ -31,8 +31,8 @@ dmg:
 linux:
     target:
         - AppImage
-        - snap
-        - deb
+        # - snap
+        # - deb
     maintainer: https://github.com/hcker2000/ttrpg-sounds
     category: Utility
 appImage:
