@@ -17,7 +17,8 @@ function createControlWindow() {
             webSecurity: app.isPackaged,
             allowRunningInsecureContent: false,
             backgroundThrottling: false
-        }
+        },
+        backgroundColor: '#212529'
     })
 
     window.webContents.on('dom-ready', () => {})
