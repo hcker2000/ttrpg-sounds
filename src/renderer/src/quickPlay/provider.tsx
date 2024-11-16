@@ -26,42 +26,52 @@ let audioPlayers = []
 
 const addSound = async () => {
     const { value: data } = await Swal.fire({
-        title: 'Add new quick sound',
+        title: 'Add new quick sounds',
         html: `
-            <div class="form-group mb-3">
-                <label for="titleInput">Title</label>
-                <input type="text" class="form-control" id="titleInput" placeholder="Enter title">  
+            <p>You may select multiple files</p>
+            <div class="form-group mb-3 text-start">
+                <label for="charactersInput">Characters to replace</label>
+                <input type="text" class="form-control" id="charactersInput" placeholder="IE .-_">
+                <div class="fs-6 fw-light">For example you might do dot, dash and underscore. This would replace any of those characters with a space.</div>
             </div>
-            <div class="form-group">
-                <label for="soundInput">File</label>  
-                <input type="file" class="form-control" id="soundInput">
+            <div class="form-group text-start">
+                <label for="soundInput">Files</label>  
+                <input type="file" class="form-control" id="soundInput" multiple>
             </div>
         `,
         showCancelButton: true,
         preConfirm: async () => {
-            const title = document.getElementById('titleInput').value
-            const sound = document.getElementById('soundInput').files[0]
+            const characters = document.getElementById('charactersInput').value
+            const sounds = document.getElementById('soundInput').files
 
-            if (!title) {
-                return Swal.showValidationMessage('Please enter a title.')
-            }
+            console.log(characters );
+            
 
-            if (!sound) {
+            if (sounds.length == 0) {
                 return Swal.showValidationMessage('Please select a sound file.')
             }
 
-            return { title, sound }
+            return { characters, sounds }
         }
     })
 
     if (data) {
-        let newSound = structuredClone(defaults.sound)
+        for (const file of data.sounds) {
+            let newSound = structuredClone(defaults.sound)
+            let cleanFileName = file.name.replace(/\.[^.]*$/, "")
 
-        newSound.title = data.title
-        newSound.file = data.sound.path
-        newSound.id = uuidv4()
+            if (data.characters != '') {
+                const escapedCharacters = data.characters.replace(/[-.*+?^${}()|[\]\\]/g, "\\$&");
+                cleanFileName = cleanFileName.replace(new RegExp("[" + escapedCharacters + "]", "g"), ' ')
+            }
 
-        setStore('sounds', (sounds) => [...sounds, newSound])
+            newSound.title = cleanFileName
+            newSound.file = file.path
+            newSound.id = uuidv4()
+    
+            setStore('sounds', (sounds) => [...sounds, newSound])
+        }
+        return
     }
 }
 
