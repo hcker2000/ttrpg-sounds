@@ -35,7 +35,11 @@ export function QuickPlay() {
                             onInput={(e) => {
                                 setSearch(e.target.value)
                             }}
+                            value={store.search}
                         />
+                        <button class="btn btn-outline-danger" type="button" onClick={(e) => {setSearch('')}}>
+                            <i class="bi bi-x-circle-fill"></i>
+                        </button>
                     </div>
                     <i
                         class="bi bi-chevron-right pointer medium-icon"
