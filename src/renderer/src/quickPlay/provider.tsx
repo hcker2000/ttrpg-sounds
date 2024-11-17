@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { v4 as uuidv4 } from 'uuid'
 import { Howl, Howler } from 'howler'
 import { createMemo } from 'solid-js'
+import { Accordion } from 'solid-bootstrap'
 
 const defaults = {
     sound: {
@@ -29,46 +30,62 @@ const addSound = async () => {
         title: 'Add new quick sounds',
         html: `
             <p>You may select multiple files</p>
-            <div class="form-group mb-3 text-start">
-                <label for="charactersInput">Characters to replace</label>
-                <input type="text" class="form-control" id="charactersInput" placeholder="IE .-_">
-                <div class="fs-6 fw-light">For example you might do dot, dash and underscore. This would replace any of those characters with a space.</div>
-            </div>
-            <div class="form-group text-start">
+            <div class="form-group text-start mb-3">
                 <label for="soundInput">Files</label>  
                 <input type="file" class="form-control" id="soundInput" multiple>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Options
+                </div>
+                <div class="card-body">
+                    <div class="form-group mb-3 text-start">
+                        <label for="charactersInput">Characters to replace</label>
+                        <input type="text" class="form-control" id="charactersInput" placeholder="IE .-_">
+                        <div class="fs-6 fw-light">For example you might do dot, dash and underscore. This would replace any of those characters with a space.</div>
+                    </div>
+                    <div class="form-check form-switch   text-start">
+                        <input class="form-check-input" type="checkbox" role="switch" id="capitalizeFirst">
+                        <label class="form-check-label" for="capitalizeFirst">Capitalize first letter of each word</label>
+                    </div>
+                </div>
             </div>
         `,
         showCancelButton: true,
         preConfirm: async () => {
             const characters = document.getElementById('charactersInput').value
+            const capitalize = document.getElementById('capitalizeFirst').checked
             const sounds = document.getElementById('soundInput').files
-
-            console.log(characters );
-            
 
             if (sounds.length == 0) {
                 return Swal.showValidationMessage('Please select a sound file.')
             }
 
-            return { characters, sounds }
+            return { characters, capitalize, sounds }
         }
     })
 
     if (data) {
         for (const file of data.sounds) {
             let newSound = structuredClone(defaults.sound)
-            let cleanFileName = file.name.replace(/\.[^.]*$/, "")
+            let cleanFileName = file.name.replace(/\.[^.]*$/, '')
 
             if (data.characters != '') {
-                const escapedCharacters = data.characters.replace(/[-.*+?^${}()|[\]\\]/g, "\\$&");
-                cleanFileName = cleanFileName.replace(new RegExp("[" + escapedCharacters + "]", "g"), ' ')
+                const escapedCharacters = data.characters.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&')
+                cleanFileName = cleanFileName.replace(
+                    new RegExp('[' + escapedCharacters + ']', 'g'),
+                    ' '
+                )
+            }
+
+            if (data.capitalize) {
+                cleanFileName = cleanFileName.replace(/\b\w/g, match => match.toUpperCase())
             }
 
             newSound.title = cleanFileName
             newSound.file = file.path
             newSound.id = uuidv4()
-    
+
             setStore('sounds', (sounds) => [...sounds, newSound])
         }
         return
