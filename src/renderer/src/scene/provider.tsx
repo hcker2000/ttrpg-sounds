@@ -273,6 +273,7 @@ export const [SceneProvider, useStore] = createContextProvider(() => {
         addSound: () => addSound(),
         removeSound: (soundId) => removeSound(soundId),
         toggleSounds: () => toggleSounds(),
+        stopSounds: () => stopSounds(),
         setSoundVolume: (soundId, event) => setSoundVolume(soundId, event),
         toggleLoop: (soundId, event) => toggleLoop(soundId, event)
     }

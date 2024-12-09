@@ -5,7 +5,6 @@ import Swal from 'sweetalert2'
 import { v4 as uuidv4 } from 'uuid'
 import { Howl, Howler } from 'howler'
 import { createMemo } from 'solid-js'
-import { Accordion } from 'solid-bootstrap'
 
 const defaults = {
     sound: {
@@ -128,10 +127,16 @@ const playSound = (sound) => {
     })
 }
 
-// unused at this point
 const stopSound = (soundId) => {
     const audioPlayer = getAudioPlayer(soundId)
     audioPlayer.player.stop()
+}
+
+const stopAllSounds = () => {
+    store.sounds.forEach((sound, index) => {
+        setStore("sounds", index, "status", "stopped")
+        stopSound(sound.id)
+    })
 }
 
 const setSoundVolume = (soundId, event) => {
@@ -156,6 +161,7 @@ const createInitialStoreValue = () => {
 const [store, setStore] = makePersisted(createStore(createInitialStoreValue()), {
     name: 'ttrpg-sounds-quick'
 })
+
 const getSounds = createMemo(() => {
     if (store.search == '') {
         return store.sounds
@@ -171,6 +177,7 @@ export const [QuickSoundProvider, useStore] = createContextProvider(() => {
         addSound: () => addSound(),
         removeSound: (soundId) => removeSound(soundId),
         playSound: (soundId) => playSound(soundId),
+        stopAllSounds: () => stopAllSounds(),
         setSoundVolume: (soundId, event) => setSoundVolume(soundId, event),
         setSearch: (value) => setSearch(value),
         getSounds: () => getSounds()
