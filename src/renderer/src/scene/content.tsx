@@ -1,10 +1,16 @@
-import { Show } from 'solid-js'
+import { Show, onMount } from 'solid-js'
 import { useStore } from './provider'
 import { Sound } from './sound'
 import { Dropdown } from 'solid-bootstrap'
 
 export function Content() {
-    const { store, getSelectedScene, addSound, toggleSounds, removeScene } = useStore()
+    const { store, getSelectedScene, addSound, toggleSounds, removeScene, stopSounds } = useStore()
+    
+    onMount(() => {
+        window.addEventListener('beforeunload', (event) => {
+            stopSounds()
+        })
+    })
 
     return (
         <Show when={getSelectedScene()} fallback={<div></div>}>
