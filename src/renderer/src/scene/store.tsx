@@ -89,45 +89,70 @@ export async function addSound() {
     const { value: data } = await Swal.fire({
         title: 'Add new sound',
         html: `
-            <div class="form-group mb-3">
-                <label for="titleInput">Title</label>
-                <input type="text" class="form-control" id="titleInput" placeholder="Enter title">  
+            <p>You may select multiple files</p>
+            <div class="form-group text-start mb-3">
+                <label for="soundInput">Files</label>  
+                <input type="file" class="form-control" id="soundInput" multiple>
             </div>
-            <div class="form-group">
-                <label for="soundInput">File</label>  
-                <input type="file" class="form-control" id="soundInput">
+            <div class="card">
+                <div class="card-header">
+                    Options
+                </div>
+                <div class="card-body">
+                    <div class="form-group mb-3 text-start">
+                        <label for="charactersInput">Characters to replace</label>
+                        <input type="text" class="form-control" id="charactersInput" placeholder="IE .-_">
+                        <div class="fs-6 fw-light">For example you might do dot, dash and underscore. This would replace any of those characters with a space.</div>
+                    </div>
+                    <div class="form-check form-switch   text-start">
+                        <input class="form-check-input" type="checkbox" role="switch" id="capitalizeFirst">
+                        <label class="form-check-label" for="capitalizeFirst">Capitalize first letter of each word</label>
+                    </div>
+                </div>
             </div>
         `,
         showCancelButton: true,
         preConfirm: async () => {
-            const title = document.getElementById('titleInput').value
-            const sound = document.getElementById('soundInput').files[0]
+            const characters = document.getElementById('charactersInput').value
+            const capitalize = document.getElementById('capitalizeFirst').checked
+            const sounds = document.getElementById('soundInput').files
 
-            if (!title) {
-                return Swal.showValidationMessage('Please enter a title.')
-            }
-
-            if (!sound) {
+            if (sounds.length == 0) {
                 return Swal.showValidationMessage('Please select a sound file.')
             }
 
-            return { title, sound }
+            return { characters, capitalize, sounds }
         }
     })
 
     if (data) {
-        let newSound = structuredClone(defaults.sound)
+        for (const file of data.sounds) {
+            let newSound = structuredClone(defaults.sound)
+            let cleanFileName = file.name.replace(/\.[^.]*$/, '')
 
-        newSound.title = data.title
-        newSound.file = data.sound.path
-        newSound.id = uuidv4()
+            if (data.characters != '') {
+                const escapedCharacters = data.characters.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&')
+                cleanFileName = cleanFileName.replace(
+                    new RegExp('[' + escapedCharacters + ']', 'g'),
+                    ' '
+                )
+            }
 
-        setStore(
-            'scenes',
-            (scene) => scene.id === store.selectedSceneId,
-            'sounds',
-            (sounds) => [...sounds, newSound]
-        )
+            if (data.capitalize) {
+                cleanFileName = cleanFileName.replace(/\b\w/g, match => match.toUpperCase())
+            }
+
+            newSound.title = cleanFileName
+            newSound.file = file.path
+            newSound.id = uuidv4()
+
+            setStore(
+                'scenes',
+                (scene) => scene.id === store.selectedSceneId,
+                'sounds',
+                (sounds) => [...sounds, newSound]
+            )
+        }
     }
 }
 
