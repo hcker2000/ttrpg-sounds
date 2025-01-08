@@ -31,7 +31,7 @@ const initialStoreValue = {
     scenes: []
 }
 
-const getSelectedScene = () => {
+export function getSelectedScene() {
     return store.scenes.find((obj) => obj.id === store.selectedSceneId)
 }
 
@@ -41,7 +41,7 @@ const createInitialStoreValue = () => {
     return initialStoreValue
 }
 
-const addScene = async () => {
+export async function addScene() {
     const { value: data } = await Swal.fire({
         title: 'Add a scene',
         html: `
@@ -78,12 +78,12 @@ const addScene = async () => {
     }
 }
 
-const removeScene = (sceneId) => {
+export function removeScene(sceneId) {
     setStore('scenes', (scene) => scene.filter((scene) => scene.id !== sceneId))
     setSelectedSceneId('');
 }
 
-const addSound = async () => {
+export async function addSound() {
     stopSounds()
 
     const { value: data } = await Swal.fire({
@@ -131,7 +131,7 @@ const addSound = async () => {
     }
 }
 
-const removeSound = async (soundId) => {
+export async function removeSound(soundId) {
     const audioPlayer = getAudioPlayer(soundId)
     const status = getSelectedScene().sounds.find((sound) => sound.id === soundId).status
 
@@ -147,12 +147,10 @@ const removeSound = async (soundId) => {
 
 type Scene = (typeof store)['scenes'][number]
 const setSelectedScene: SetStoreFunction<Scene> = (...args: any[]) => {
-    // console.log(args)
-
     return setStore('scenes', ({ id }) => id === store.selectedSceneId, ...args)
 }
 
-const setSelectedSceneId = (sceneId) => {
+export function setSelectedSceneId(sceneId) {
     setStore('playingSounds', false)
     setStore('selectedSceneId', sceneId)
     
@@ -161,11 +159,11 @@ const setSelectedSceneId = (sceneId) => {
     }
 }
 
-const getAudioPlayer = (soundId) => {
+export function getAudioPlayer(soundId) {
     return audioPlayers.find((item) => item.id === soundId)
 }
 
-const toggleSounds = () => {
+export function toggleSounds() {
     const playingSounds = store.playingSounds
     const selectedScene = getSelectedScene()
 
@@ -178,7 +176,6 @@ const toggleSounds = () => {
             'status',
             'stopped'
         )
-        console.log(audioPlayers)
     } else {
         selectedScene.sounds.forEach((sound, index) => {
             let newPlayer = {
@@ -219,7 +216,7 @@ const toggleSounds = () => {
     setStore('playingSounds', !playingSounds)
 }
 
-const stopSounds = () => {
+export function stopSounds() {
     Howler.stop()
     audioPlayers = []
 
@@ -234,7 +231,7 @@ const stopSounds = () => {
     )
 }
 
-const setSoundVolume = (soundId, event) => {
+export function setSoundVolume(soundId, event) {
     const audioPlayer = getAudioPlayer(soundId)
     const newVolume = event.target.value
 
@@ -245,7 +242,7 @@ const setSoundVolume = (soundId, event) => {
     }
 }
 
-const toggleLoop = (soundId, event) => {
+export function toggleLoop(soundId, event) {
     const audioPlayer = getAudioPlayer(soundId)
 
     const newValue = !getSelectedScene().sounds.filter((sound) => sound.id === soundId)[0].loop
@@ -261,20 +258,6 @@ const [store, setStore] = makePersisted(createStore(createInitialStoreValue()), 
     name: 'ttrpg-sounds'
 })
 
-export const [SceneProvider, useStore] = createContextProvider(() => {
-    return {
-        store: store,
-        setStore: setStore,
-        getSelectedScene: () => getSelectedScene(),
-        setSelectedScene: (...args) => setSelectedScene(...args),
-        setSelectedSceneId: (scene) => setSelectedSceneId(scene),
-        addScene: () => addScene(),
-        removeScene: (sceneId) => removeScene(sceneId),
-        addSound: () => addSound(),
-        removeSound: (soundId) => removeSound(soundId),
-        toggleSounds: () => toggleSounds(),
-        stopSounds: () => stopSounds(),
-        setSoundVolume: (soundId, event) => setSoundVolume(soundId, event),
-        toggleLoop: (soundId, event) => toggleLoop(soundId, event)
-    }
-})
+export function getStore() {
+    return store;
+}

@@ -1,8 +1,8 @@
 import { For } from 'solid-js'
-import { useStore } from './provider'
+import { getStore, setSelectedSceneId, addScene, getSelectedScene } from './store'
 
 export function Nav() {
-    const { store, setSelectedSceneId, addScene, getSelectedScene } = useStore()
+    const store = getStore()
 
     return (
         <div>

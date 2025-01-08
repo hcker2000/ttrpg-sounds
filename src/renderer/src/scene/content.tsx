@@ -1,10 +1,10 @@
 import { Show, onMount } from 'solid-js'
-import { useStore } from './provider'
 import { Sound } from './sound'
 import { Dropdown } from 'solid-bootstrap'
+import { getStore, getSelectedScene, addSound, toggleSounds, removeScene, stopSounds } from './store'
 
 export function Content() {
-    const { store, getSelectedScene, addSound, toggleSounds, removeScene, stopSounds } = useStore()
+    const store = getStore()
     
     onMount(() => {
         window.addEventListener('beforeunload', (event) => {

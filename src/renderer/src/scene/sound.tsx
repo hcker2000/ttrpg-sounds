@@ -1,9 +1,7 @@
 import { For } from 'solid-js'
-import { useStore } from './provider'
+import { getSelectedScene, setSoundVolume, toggleLoop, removeSound } from './store'
 
 export function Sound() {
-    const { store, getSelectedScene, setSoundVolume, toggleLoop, removeSound } = useStore()
-
     return (
         <div class="sounds">
             <For each={getSelectedScene().sounds}>
