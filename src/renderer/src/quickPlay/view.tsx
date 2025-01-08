@@ -1,9 +1,10 @@
-import { useStore, QuickSoundProvider } from './provider'
 import { Sound } from './sound'
 import { onMount } from 'solid-js'
+import { setSearch, addSound, stopAllSounds, getStore } from './store'
 
 export function QuickPlay() {
-    const { store, addSound, setSearch, stopAllSounds } = useStore()
+    const store = getStore()
+    
     onMount(() => {
         window.addEventListener('beforeunload', (event) => {
             stopAllSounds()

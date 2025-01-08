@@ -1,6 +1,5 @@
 import { QuickPlay } from './quickPlay/view'
 import { Scene } from './scene/scene'
-import { QuickSoundProvider } from './quickPlay/provider'
 import svgIconUrl from '../assets/icon.svg'
 import { onMount } from 'solid-js'
 
@@ -25,9 +24,7 @@ export function Layout() {
             </div>
             <div class="layout">
                 <Scene />
-                <QuickSoundProvider>
-                    <QuickPlay />
-                </QuickSoundProvider>
+                <QuickPlay />
             </div>
         </>
     )
